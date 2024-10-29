@@ -1,6 +1,5 @@
-package com.gai_app.gai_cars.controller;
+package com.gai_app.gai_cars.exception;
 
-import com.gai_app.gai_cars.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

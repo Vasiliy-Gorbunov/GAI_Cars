@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 
 @Getter
 @Setter
@@ -14,5 +16,5 @@ public class CarModel {
     private String make;
     private String model;
     private String numberPlate;
-    private Integer age;
+    private LocalDate dor;
 }

@@ -57,7 +57,7 @@ public class CarServiceImpl implements CarService {
         existingCar.setMake(updatingCar.getMake());
         existingCar.setModel(updatingCar.getModel());
         existingCar.setNumberPlate(updatingCar.getNumberPlate());
-        existingCar.setAge(updatingCar.getAge());
+        existingCar.setDor(updatingCar.getDor());
 
         return mappingUtils.mapToCarModelFromEntity(carRepository.save(existingCar));
     }

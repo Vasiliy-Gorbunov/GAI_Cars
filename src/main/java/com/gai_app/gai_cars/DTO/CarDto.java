@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
@@ -20,13 +18,15 @@ public class CarDto {
 
     private Long id;
 
-    @NotNull(message = "Make cannot be null")
+    @NotBlank(message = "Make cannot be null or blank")
     private String make;
 
-    @NotNull(message = "Model cannot be null")
+    @NotBlank(message = "Model cannot be null or blank")
     private String model;
 
-    @NotNull(message = "Number plate cannot be null")
+    @NotBlank(message = "Number plate cannot be null or blank")
+    @Pattern(regexp = "^[a-zA-Z0-9. ]+$",
+            message = "Name must contain only latin letters, numbers, points and spaces")
     @Size(min = 3, max = 20, message = "Number plate must be between 3 and 20 characters")
     private String numberPlate;
 

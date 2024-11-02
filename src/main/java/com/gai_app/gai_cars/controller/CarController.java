@@ -1,6 +1,8 @@
 package com.gai_app.gai_cars.controller;
 
 import com.gai_app.gai_cars.DTO.CarDto;
+import org.springframework.http.ResponseEntity;
+
 import java.util.List;
 
 
@@ -9,7 +11,7 @@ public interface CarController {
 
     List<CarDto> getAllCars();
 
-    CarDto getCarById(Long id);
+    ResponseEntity<CarDto> getCarById(Long id);
 
 
     CarDto createCar(CarDto carDto);

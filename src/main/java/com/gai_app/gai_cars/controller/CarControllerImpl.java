@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +34,9 @@ public class CarControllerImpl implements CarController {
     }
 
     @GetMapping("/{id}")
-    public CarDto getCarById(@PathVariable Long id) {
-        return mappingUtils.mapToCarDto(carService.getCarById(id));
+    public ResponseEntity<CarDto> getCarById(@PathVariable Long id) {
+        return new ResponseEntity<>(mappingUtils.mapToCarDto
+                (carService.getCarById(id)), HttpStatus.OK);
     }
 
     @PostMapping

@@ -5,6 +5,7 @@ import com.gai_app.gai_cars.exception.ResourceNotFoundException;
 import com.gai_app.gai_cars.mapper.MappingUtils;
 import com.gai_app.gai_cars.model.CarModel;
 import com.gai_app.gai_cars.repository.CarRepository;
+import com.gai_app.gai_cars.service.kafka.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,11 +18,13 @@ public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
     private final MappingUtils mappingUtils;
+    private final NotificationService notificationService;
 
     @Autowired
-    public CarServiceImpl(CarRepository carRepository, MappingUtils mappingUtils) {
+    public CarServiceImpl(CarRepository carRepository, MappingUtils mappingUtils, NotificationService notificationService) {
         this.carRepository = carRepository;
         this.mappingUtils = mappingUtils;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -35,14 +38,17 @@ public class CarServiceImpl implements CarService {
     @Transactional(readOnly = true)
     public CarModel getCarById(Long id) {
         return mappingUtils.mapToCarModelFromEntity(carRepository.findById(id)
-                .orElseThrow(() -> ThrowableMessage("Car", id)));
+                .orElseThrow(() -> ThrowableMessage(id)));
     }
 
 
     @Override
     @Transactional
     public CarModel createCar(CarModel carModel) {
-        return mappingUtils.mapToCarModelFromEntity(carRepository.save(mappingUtils.mapToCar(carModel)));
+        CarModel savedCar = mappingUtils.mapToCarModelFromEntity(carRepository
+                .save(mappingUtils.mapToCar(carModel)));
+        notificationService.getModelCreateMessageAndSend(savedCar, "created");
+        return savedCar;
     }
 
 
@@ -50,7 +56,7 @@ public class CarServiceImpl implements CarService {
     @Transactional
     public CarModel updateCar(Long id, CarModel updatedCar) {
         Car existingCar = carRepository.findById(id)
-                .orElseThrow(() -> ThrowableMessage("Car", id));
+                .orElseThrow(() -> ThrowableMessage(id));
 
         Car updatingCar = mappingUtils.mapToCar(updatedCar);
 
@@ -59,7 +65,9 @@ public class CarServiceImpl implements CarService {
         existingCar.setNumberPlate(updatingCar.getNumberPlate());
         existingCar.setDor(updatingCar.getDor());
 
-        return mappingUtils.mapToCarModelFromEntity(carRepository.save(existingCar));
+        updatedCar = mappingUtils.mapToCarModelFromEntity(carRepository.save(existingCar));
+        notificationService.getModelCreateMessageAndSend(updatedCar, "updated");
+        return updatedCar;
     }
 
 
@@ -67,12 +75,14 @@ public class CarServiceImpl implements CarService {
     @Transactional
     public void deleteCar(Long id) {
         Car existingCar = carRepository.findById(id)
-                .orElseThrow(() -> ThrowableMessage("Car", id));
+                .orElseThrow(() -> ThrowableMessage(id));
         carRepository.deleteById(existingCar.getId());
+        notificationService.getModelCreateMessageAndSend(mappingUtils
+                .mapToCarModelFromEntity(existingCar), "deleted");
     }
 
 
-    private ResourceNotFoundException ThrowableMessage(String obj, Long id) {
-        return new ResourceNotFoundException(obj + " with id " + id + " not found");
+    private ResourceNotFoundException ThrowableMessage(Long id) {
+        return new ResourceNotFoundException("Car with id " + id + " not found");
     }
 }

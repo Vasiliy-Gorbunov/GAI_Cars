@@ -14,8 +14,8 @@ public class NotificationService {
     }
 
     public void getModelCreateMessageAndSend(CarModel carModel, String cause) {
-        String message = "Car with id " + carModel.getId() + " has been " + cause + "\n"
-                + "Car: " + carModel;
+        String message = "Car with id " + carModel.getId() + " has been "
+                + cause + ". Car: " + carModel;
         sendNotification(message);
     }
 

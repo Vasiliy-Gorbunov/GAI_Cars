@@ -1,5 +1,11 @@
-FROM openjdk:21-jdk-slim
+FROM maven:3.9.9-eclipse-temurin-21 AS builder
 WORKDIR /app
-COPY /target/GAI_Cars-0.0.1-SNAPSHOT.jar /app/GAI_Cars.jar
+COPY . /app
+
+RUN mvn package -DskipTests
+
+FROM  eclipse-temurin:21-jre-alpine
+COPY --from=builder /app/target/GAI_Cars*.jar /GAI_Cars.jar
+
 EXPOSE 8082
-ENTRYPOINT ["java", "-jar", "GAI_Cars.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport","-XX:MaxRAMPercentage=70.0", "-XX:+UseParallelGC", "-jar", "GAI_Cars.jar"]

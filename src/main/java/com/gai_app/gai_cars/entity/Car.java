@@ -1,9 +1,10 @@
 package com.gai_app.gai_cars.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -16,5 +17,5 @@ public class Car {
     private String make;
     private String model;
     private String numberPlate;
-    private Integer age;
+    private LocalDate dor;
 }

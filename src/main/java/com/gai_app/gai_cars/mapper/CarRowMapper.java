@@ -15,7 +15,7 @@ public class CarRowMapper implements RowMapper<Car> {
         car.setMake(rs.getString("make"));
         car.setModel(rs.getString("model"));
         car.setNumberPlate(rs.getString("number_plate"));
-        car.setAge(rs.getInt("age"));
+        car.setDor(rs.getDate("dor").toLocalDate());
 
         return car;
     }

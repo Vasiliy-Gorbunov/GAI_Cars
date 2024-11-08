@@ -11,7 +11,7 @@
             <column name="make" type="VARCHAR(255)"/>
             <column name="model" type="VARCHAR(255)"/>
             <column name="number_plate" type="VARCHAR(20)"/>
-            <column name="age" type="integer"/>
+            <column name="dor" type="DATE"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

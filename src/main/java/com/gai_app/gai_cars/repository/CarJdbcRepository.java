@@ -38,14 +38,14 @@ public class CarJdbcRepository implements CarRepository {
                     car.getMake(),
                     car.getModel(),
                     car.getNumberPlate(),
-                    car.getAge());
+                    car.getDor());
         } else {
             String sql = "UPDATE car SET make = ?, model = ?, number_plate = ?, age = ? WHERE id = ?";
             jdbcTemplate.update(sql,
                     car.getMake(),
                     car.getModel(),
                     car.getNumberPlate(),
-                    car.getAge(),
+                    car.getDor(),
                     car.getId());
         }
         return car;

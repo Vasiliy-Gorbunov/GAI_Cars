@@ -1,19 +1,18 @@
 package com.gai_app.gai_cars.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 
-@Getter
-@Setter
+
 @Component
+@Data
 public class CarModel {
 
     private Long id;
     private String make;
     private String model;
     private String numberPlate;
-    private Integer age;
+    private LocalDate dor;
 }
